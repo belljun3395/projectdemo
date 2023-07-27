@@ -9,6 +9,9 @@ buildscript {
         asciidoctorVersion = '3.3.2'
         epagesRestDocsApiSpecVersion = '0.16.0'
         sonarqubeVersion = '4.0.0.2929'
+
+        // dependencies
+        flywayVersion = '9.16.0'
     }
 }
 
