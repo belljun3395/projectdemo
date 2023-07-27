@@ -9,6 +9,9 @@ buildscript {
         asciidoctorVersion = '3.3.2'
         epagesRestDocsApiSpecVersion = '0.16.0'
         sonarqubeVersion = '4.0.0.2929'
+
+        // dependencies
+        flywayVersion = '9.16.0'
     }
 }
 
@@ -60,9 +63,19 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // database
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'mysql:mysql-connector-java'
+
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+
+    // infra
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // flyway
+    implementation "org.flywaydb:flyway-core:${flywayVersion}"
+    implementation 'org.flywaydb:flyway-mysql'
 }
 
 test {
