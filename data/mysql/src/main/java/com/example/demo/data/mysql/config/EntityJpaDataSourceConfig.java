@@ -1,6 +1,9 @@
 package com.example.demo.data.mysql.config;
 
-import com.example.demo.data.mysql.MysqlConfig;
+import static com.example.demo.data.mysql.MysqlConfig.BASE_PACKAGE;
+import static com.example.demo.data.mysql.MysqlConfig.BEAN_NAME_PREFIX;
+import static com.example.demo.data.mysql.MysqlConfig.PROPERTY_PREFIX;
+
 import java.util.Map;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -28,45 +31,42 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaAuditing
 @EnableTransactionManagement
 @EnableJpaRepositories(
-		basePackages = EntityJpaDataSourceConfig.BASE_PACKAGE,
+		basePackages = BASE_PACKAGE,
 		transactionManagerRef = EntityJpaDataSourceConfig.TRANSACTION_MANAGER_NAME,
 		entityManagerFactoryRef = EntityJpaDataSourceConfig.ENTITY_MANAGER_FACTORY_NAME)
 public class EntityJpaDataSourceConfig {
 
-	public static final String BASE_PACKAGE = MysqlConfig.BASE_PACKAGE;
-	private static final String MODULE_NAME = "data";
-	private static final String SERVICE_NAME = "demo";
-	private static final String REPOSITORY_DRIVER = "mysql";
+	private static final String ENTITY_PROPERTY_PREFIX = PROPERTY_PREFIX + ".entity";
 
-	// base property prefix for jpa datasource
-	private static final String BASE_PROPERTY_PREFIX =
-			SERVICE_NAME + "." + MODULE_NAME + "." + REPOSITORY_DRIVER + ".entity";
-
-	// bean name for jpa datasource configuration
-	public static final String ENTITY_MANAGER_FACTORY_NAME = SERVICE_NAME + "EntityManagerFactory";
-	public static final String TRANSACTION_MANAGER_NAME = SERVICE_NAME + "TransactionManager";
-	public static final String DATASOURCE_NAME = SERVICE_NAME + "DataSource";
-	private static final String JPA_PROPERTIES_NAME = SERVICE_NAME + "JpaProperties";
-	private static final String HIBERNATE_PROPERTIES_NAME = SERVICE_NAME + "HibernateProperties";
-	private static final String JPA_VENDOR_ADAPTER_NAME = SERVICE_NAME + "JpaVendorAdapter";
-	private static final String PERSIST_UNIT = SERVICE_NAME + "PersistenceUnit";
+	public static final String ENTITY_BEAN_NAME_PREFIX = BEAN_NAME_PREFIX + "Entity";
+	public static final String ENTITY_MANAGER_FACTORY_NAME =
+			ENTITY_BEAN_NAME_PREFIX + "ManagerFactory";
+	public static final String TRANSACTION_MANAGER_NAME =
+			ENTITY_BEAN_NAME_PREFIX + "TransactionManager";
+	public static final String DATASOURCE_NAME = ENTITY_BEAN_NAME_PREFIX + "DataSource";
+	private static final String JPA_PROPERTIES_NAME = ENTITY_BEAN_NAME_PREFIX + "JpaProperties";
+	private static final String HIBERNATE_PROPERTIES_NAME =
+			ENTITY_BEAN_NAME_PREFIX + "HibernateProperties";
+	private static final String JPA_VENDOR_ADAPTER_NAME =
+			ENTITY_BEAN_NAME_PREFIX + "JpaVendorAdapter";
+	private static final String PERSIST_UNIT = ENTITY_BEAN_NAME_PREFIX + "PersistenceUnit";
 	private static final String ENTITY_MANAGER_FACTORY_BUILDER_NAME =
-			SERVICE_NAME + "EntityManagerFactoryBuilder";
+			ENTITY_BEAN_NAME_PREFIX + "ManagerFactoryBuilder";
 
 	@Bean(name = DATASOURCE_NAME)
-	@ConfigurationProperties(prefix = BASE_PROPERTY_PREFIX + ".datasource")
+	@ConfigurationProperties(prefix = ENTITY_PROPERTY_PREFIX + ".datasource")
 	public DataSource dataSource() {
 		return DataSourceBuilder.create().build();
 	}
 
 	@Bean(name = JPA_PROPERTIES_NAME)
-	@ConfigurationProperties(prefix = BASE_PROPERTY_PREFIX + ".jpa")
+	@ConfigurationProperties(prefix = ENTITY_PROPERTY_PREFIX + ".jpa")
 	public JpaProperties jpaProperties() {
 		return new JpaProperties();
 	}
 
 	@Bean(name = HIBERNATE_PROPERTIES_NAME)
-	@ConfigurationProperties(prefix = BASE_PROPERTY_PREFIX + ".jpa.hibernate")
+	@ConfigurationProperties(prefix = ENTITY_PROPERTY_PREFIX + ".jpa.hibernate")
 	public HibernateProperties hibernateProperties() {
 		return new HibernateProperties();
 	}

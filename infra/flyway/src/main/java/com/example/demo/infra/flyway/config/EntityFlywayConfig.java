@@ -1,5 +1,8 @@
 package com.example.demo.infra.flyway.config;
 
+import static com.example.demo.infra.flyway.FlywayConfig.BEAN_NAME_PREFIX;
+import static com.example.demo.infra.flyway.FlywayConfig.PROPERTY_PREFIX;
+
 import com.example.demo.data.mysql.config.EntityJpaDataSourceConfig;
 import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
@@ -14,21 +17,18 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class EntityFlywayConfig {
-	private static final String SERVICE_NAME = "demo";
-	private static final String MODULE_NAME = "infra";
-	public static final String MODULE_BASE_PACKAGE = "com.example.demo" + "." + MODULE_NAME;
 
 	// base property prefix for flyway
-	private static final String BASE_PROPERTY_PREFIX = SERVICE_NAME + "." + MODULE_NAME + ".flyway";
+	private static final String BASE_PROPERTY_PREFIX = PROPERTY_PREFIX;
 
 	// bean name for flyway configuration
-	private static final String FLYWAY = SERVICE_NAME + "Flyway";
-	private static final String FLYWAY_PROPERTIES = SERVICE_NAME + "FlywayProperties";
+	private static final String FLYWAY = BEAN_NAME_PREFIX;
+	private static final String FLYWAY_PROPERTIES = BEAN_NAME_PREFIX + "Properties";
 	private static final String FLYWAY_MIGRATION_INITIALIZER =
-			SERVICE_NAME + "FlywayMigrationInitializer";
+			BEAN_NAME_PREFIX + "MigrationInitializer";
 	private static final String FLYWAY_VALIDATE_INITIALIZER =
-			SERVICE_NAME + "FlywayValidateInitializer";
-	private static final String FLYWAY_CONFIGURATION = SERVICE_NAME + "FlywayConfiguration";
+			BEAN_NAME_PREFIX + "ValidateInitializer";
+	private static final String FLYWAY_CONFIGURATION = BEAN_NAME_PREFIX + "Configuration";
 
 	@Bean(name = FLYWAY)
 	public Flyway flyway(
