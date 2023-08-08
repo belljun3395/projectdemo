@@ -1,8 +1,7 @@
 demo:
-  infra:
-    flyway:
-      entity:
-        locations: classpath:db/migration/entity
-        sql-migration-suffixes: sql
-        baseline-on-migrate: true
-        baseline-version: 0
+  flyway:
+    entity:
+      locations: classpath:db/migration/entity
+      sql-migration-suffixes: sql
+      baseline-on-migrate: true
+      baseline-version: 0
