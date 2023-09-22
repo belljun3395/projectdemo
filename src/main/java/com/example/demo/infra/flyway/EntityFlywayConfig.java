@@ -1,7 +1,9 @@
 package com.example.demo.infra.flyway;
 
 import static com.example.demo.config.AppConfig.BASE_PACKAGE;
+import static com.example.demo.repository.config.JpaDataSourceConfig.DATASOURCE_NAME;
 
+import javax.sql.DataSource;
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,7 +39,7 @@ public class EntityFlywayConfig {
 		return new Flyway(configuration);
 	}
 
-	@Profile({"!local"})
+	@Profile({"!local && !new"})
 	@Bean(name = FLYWAY_VALIDATE_INITIALIZER)
 	public FlywayMigrationInitializer flywayValidateInitializer(
 			@Qualifier(value = FLYWAY) Flyway flyway) {
@@ -59,10 +61,11 @@ public class EntityFlywayConfig {
 
 	@Bean(name = FLYWAY_CONFIGURATION)
 	public org.flywaydb.core.api.configuration.Configuration configuration(
-			@Qualifier(value = FLYWAY_PROPERTIES) FlywayProperties flywayProperties) {
+			@Qualifier(value = FLYWAY_PROPERTIES) FlywayProperties flywayProperties,
+			@Qualifier(value = DATASOURCE_NAME) DataSource dataSource) {
+
 		FluentConfiguration configuration = new FluentConfiguration();
-		configuration.dataSource(
-				flywayProperties.getUrl(), flywayProperties.getUser(), flywayProperties.getPassword());
+		configuration.dataSource(dataSource);
 		flywayProperties.getLocations().forEach(configuration::locations);
 		return configuration;
 	}
