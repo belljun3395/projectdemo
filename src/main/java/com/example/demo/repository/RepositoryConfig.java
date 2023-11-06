@@ -1,4 +1,4 @@
-package com.example.demo.repository.config;
+package com.example.demo.repository;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
